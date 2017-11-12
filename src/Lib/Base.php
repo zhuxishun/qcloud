@@ -52,10 +52,10 @@ class Base
         $qcloud  = $this->app['config']->get('qcloud');
         if (!$qcloud['debug'] || defined('PHPUNIT_RUNNING')) {
             $logger->pushHandler(new NullHandler());
-        } elseif ($qcloud['log.handler'] instanceof HandlerInterface) {
-            $logger->pushHandler($qcloud['log.handler']);
-        } elseif ($logFile = $qcloud['log.file']) {
-            $logger->pushHandler(new StreamHandler($logFile, $this->app['config']->get('qcloud.log.level', Logger::WARNING)));
+        } elseif ($qcloud['log']['handler'] instanceof HandlerInterface) {
+            $logger->pushHandler($qcloud['log']['handler']);
+        } elseif ($logFile = $qcloud['log']['file']) {
+            $logger->pushHandler(new StreamHandler($logFile, $qcloud['log']['level']));
         }
 
         Log::setLogger($logger);
