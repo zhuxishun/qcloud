@@ -15,6 +15,7 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Qcloud\Support\Exception;
 use Qcloud\Support\Log;
 use GuzzleHttp\Client as HttpClient;
