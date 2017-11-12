@@ -2,6 +2,7 @@
     "name": "zhuxishun/qcloud",
     "description": "处理微信小程序",
     "type": "library",
+    "homepage": "https://github.com/zhuxishun/qcloud/",
     "require": {
         "ext-openssl": "^7.0",
         "monolog/monolog": "^1.23",
