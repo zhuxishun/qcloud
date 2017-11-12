@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca75e02c-aa2b-4eb5-8b45-a18eb6031d12" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Lib/Auth.php" afterPath="$PROJECT_DIR$/src/Lib/Auth.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Lib/Base.php" afterPath="$PROJECT_DIR$/src/Lib/Base.php" />
     </list>
     <ignored path="qcloud.iws" />
@@ -36,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Base.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Base.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Lib/Base.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.035714">
-              <caret line="91" column="30" selection-start-line="91" selection-start-column="30" selection-end-line="91" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.55495495">
+              <caret line="88" column="40" selection-start-line="88" selection-start-column="40" selection-end-line="88" selection-end-column="40" />
               <folding>
                 <element signature="e#116#144#0#PHP" expanded="true" />
               </folding>
@@ -78,10 +76,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Request.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Request.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Support/Request.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.58198196">
+            <state vertical-scroll-proportion="11.535714">
               <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding />
             </state>
@@ -99,8 +97,8 @@
         <option value="$PROJECT_DIR$/src/Facades/Auth.php" />
         <option value="$PROJECT_DIR$/src/QcloudServiceProvider.php" />
         <option value="$PROJECT_DIR$/src/config/qcloud.php" />
-        <option value="$PROJECT_DIR$/src/Lib/Base.php" />
         <option value="$PROJECT_DIR$/src/Lib/Auth.php" />
+        <option value="$PROJECT_DIR$/src/Lib/Base.php" />
       </list>
     </option>
   </component>
@@ -327,16 +325,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Lib/Base.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.035714">
-          <caret line="91" column="30" selection-start-line="91" selection-start-column="30" selection-end-line="91" selection-end-column="30" />
-          <folding>
-            <element signature="e#116#144#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Lib/Auth.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-14.25">
@@ -347,9 +335,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Support/Request.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.58198196">
+        <state vertical-scroll-proportion="11.535714">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Lib/Base.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.55495495">
+          <caret line="88" column="40" selection-start-line="88" selection-start-column="40" selection-end-line="88" selection-end-column="40" />
+          <folding>
+            <element signature="e#116#144#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -86,7 +86,7 @@ class Base
 
         Log::debug('API response:', [
             'Status' => $status,
-            'Body' => strval($body),
+            'Body' => json_encode($body),
         ]);
 
         return [$status,$body];
