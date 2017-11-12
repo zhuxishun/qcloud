@@ -1,7 +1,7 @@
 <?php
-namespace Qcloud;
+namespace  QCloud_WeApp_SDK;
 use Illuminate\Support\ServiceProvider;
-use Qcloud\Lib\Auth;
+use QCloud_WeApp_SDK\Auth\LoginService;
 
 class QcloudServiceProvider extends ServiceProvider
 {
@@ -15,7 +15,7 @@ class QcloudServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__ . '/../migrations/' => database_path('/migrations'),
+            __DIR__ . '/migrations/' => database_path('/migrations'),
         ], 'migrations');
     }
 
@@ -26,8 +26,5 @@ class QcloudServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/config/qcloud.php', 'qcloud');
-        $this->app->bind(Auth::class,function($app){
-            return new Auth($app);
-        });
     }
 }

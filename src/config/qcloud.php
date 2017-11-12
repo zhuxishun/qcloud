@@ -38,6 +38,11 @@ return [
     'tunnel_signature_key' =>'',
 
     /**
+     * 信道签名是否需要验证
+     */
+    'tunnel_check_signature'=>true,
+
+    /**
      * 微信登录态有效期,最大30天
      */
     'login_expires' =>29 * 24 * 3600,
@@ -48,13 +53,20 @@ return [
     'network_timeout' => 3000,
 
     /**
+     * 是否启动路由功能
+     */
+    'route'=>[
+        'prefix'=>'qcloud',
+        'enabled' => true,
+    ],
+
+    /**
      * 日志管理
      *
      * file 文件
      * handler 函数句柄
      */
     'log' => [
-        'handler'=>false,
         'file'=> storage_path('logs/qcloud.log'),
         'level'=>'debug',
     ]

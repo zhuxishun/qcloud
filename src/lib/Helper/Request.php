@@ -1,5 +1,5 @@
 <?php
-namespace Qcloud\Support;
+namespace QCloud_WeApp_SDK\Helper;
 
 class Request {
     /**

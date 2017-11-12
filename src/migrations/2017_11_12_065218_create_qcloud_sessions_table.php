@@ -13,7 +13,7 @@ class CreateQcloudSessionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('qcloud_sessions', function (Blueprint $table) {
+        Schema::create('qcloud_sessions;', function (Blueprint $table) {
             $table->increments('id');
             $table->string('uuid',100)->default('');
             $table->string('skey',100)->unique();
@@ -31,6 +31,6 @@ class CreateQcloudSessionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('qcloud_sessions');
+        Schema::dropIfExists('qcloud_sessions;');
     }
 }
