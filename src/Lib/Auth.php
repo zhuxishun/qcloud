@@ -129,7 +129,8 @@ class Auth extends Base
         if ($status !== 200 || !$body || isset($body['errcode'])) {
             throw new Exception(self::ERROR_AUTH. ': ' . json_encode($body));
         }
-        return $body;
+        list($sessionKey, $openid) = array_values($body);
+        return $sessionKey;
     }
 
     /**
