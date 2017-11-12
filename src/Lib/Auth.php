@@ -13,8 +13,8 @@ class Auth extends Base
     const WX_HEADER_IV = 'x-wx-iv';
     const WX_HEADER_SKEY = 'x-wx-skey';
     const WX_SESSION_URL = 'https://api.weixin.qq.com/sns/jscode2session?';
-    const SUCESS_AUTH = 1;
-    const ERROR_AUTH = 0;
+    const SUCESS_AUTH = 0;
+    const ERROR_AUTH = 1000;
 
     /**
      * @return array
@@ -28,8 +28,8 @@ class Auth extends Base
             return $this->getLoginApi($code, $encryptedData, $iv);
         } catch (Exception $e) {
             return [
-                'loginState' => self::ERROR_AUTH,
-                'error' => $e->getMessage()
+                'errCode' => self::ERROR_AUTH,
+                'message' => $e->getMessage()
             ];
         }
     }
@@ -44,8 +44,8 @@ class Auth extends Base
             return $this->getCheckLoginApi($skey);
         } catch (Exception $e) {
             return [
-                'loginState' => self::ERROR_AUTH,
-                'error' => $e->getMessage()
+                'errCode' => self::ERROR_AUTH,
+                'message' => $e->getMessage()
             ];
         }
     }
@@ -78,7 +78,7 @@ class Auth extends Base
         $this->setStorage($skey, $sessionKey,$userinfo);
 
         return [
-            'loginState' => self::SUCESS_AUTH,
+            'errCode' => self::SUCESS_AUTH,
             'userinfo' => compact('userinfo', 'skey')
         ];
     }
@@ -92,7 +92,7 @@ class Auth extends Base
         $session = QcloudSession::where('skey',$skey)->first();
         if (empty($session)) {
             return [
-                'loginState' => self::ERROR_AUTH,
+                'errCode' => self::ERROR_AUTH,
                 'userinfo' => []
             ];
         }
@@ -101,12 +101,12 @@ class Auth extends Base
         $timeDifference = time() - strtotime($session->updated_at);
         if ($timeDifference > $wxLoginExpires) {
             return [
-                'loginState' => self::ERROR_AUTH,
+                'errCode' => self::ERROR_AUTH,
                 'userinfo' => []
             ];
         } else {
             return [
-                'loginState' => self::SUCESS_AUTH,
+                'errCode' => self::SUCESS_AUTH,
                 'userinfo' => json_decode($session->userinfo, true)
             ];
         }
