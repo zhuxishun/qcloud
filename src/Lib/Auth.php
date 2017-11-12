@@ -128,7 +128,7 @@ class Auth extends Base
         $headers['timeout'] = $qcloud['network_timeout'];
        $http = $this->request(self::WX_SESSION_URL,'get',$params,$headers);
        $status = $http->getStatusCode();
-       $body = json_decode($http->getBody(),true);
+       $body = $this->parseJSON($http);
         if ($status !== 200 || !$body || isset($body['errcode'])) {
             throw new Exception(self::ERROR_AUTH. ': ' . json_encode($body));
         }

@@ -111,6 +111,48 @@ class Base
         return $this->client;
     }
 
+    /**
+     * @param $body
+     * @return bool|mixed
+     * @throws Exception
+     * 解析内容
+     */
+    public function parseJSON($body)
+    {
+        if ($body instanceof ResponseInterface) {
+            $body = $body->getBody();
+        }
+
+        // XXX: json maybe contains special chars. So, let's FUCK the WeChat API developers ...
+        $body = $this->fuckTheWeChatInvalidJSON($body);
+
+        if (empty($body)) {
+            return false;
+        }
+
+        $contents = json_decode($body, true);
+
+        Log::debug('API response decoded:', compact('contents'));
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new Exception('Failed to parse JSON: '.json_last_error_msg());
+        }
+
+        return $contents;
+    }
+
+    /**
+     * Filter the invalid JSON string.
+     *
+     * @param \Psr\Http\Message\StreamInterface|string $invalidJSON
+     *
+     * @return string
+     */
+    protected function fuckTheWeChatInvalidJSON($invalidJSON)
+    {
+        return preg_replace("/\p{Cc}/u", '', trim($invalidJSON));
+    }
+
 
 
     /**
