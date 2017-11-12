@@ -8,13 +8,25 @@ use Qcloud\Support\Log;
 
 class Auth extends Base
 {
-    const WX_HEADER_CODE = 'x-wx-code';
-    const WX_HEADER_ENCRYPTED_DATA = 'x-wx-encrypted-data';
-    const WX_HEADER_IV = 'x-wx-iv';
-    const WX_HEADER_SKEY = 'x-wx-skey';
-    const WX_SESSION_URL = 'https://api.weixin.qq.com/sns/jscode2session?';
-    const SUCESS_AUTH = 0;
-    const ERROR_AUTH = 1000;
+    const WX_HEADER_CODE = 'X-WX-Code';
+    const WX_HEADER_ENCRYPTED_DATA = 'X-WX-Encrypted-Data';
+    const WX_HEADER_IV = 'X-WX-IV';
+
+    const WX_HEADER_ID = 'X-WX-Id';
+    const WX_HEADER_SKEY = 'X-WX-Skey';
+
+    const WX_SESSION_MAGIC_ID = 'F2C224D4-2BCE-4C64-AF9F-A6D872000D1A';
+
+    const ERR_LOGIN_FAILED = 90001;
+    const ERR_INVALID_SESSION = 90002;
+    const ERR_CHECK_LOGIN_FAILED = 90003;
+
+    const INTERFACE_LOGIN = 'qcloud.cam.id_skey';
+    const INTERFACE_CHECK = 'qcloud.cam.auth';
+
+    const RETURN_CODE_SUCCESS = 0;
+    const RETURN_CODE_SKEY_EXPIRED = 60011;
+    const RETURN_CODE_WX_SESSION_FAILED = 60012;
 
     /**
      * @return array
@@ -25,10 +37,10 @@ class Auth extends Base
             $code = $this->getHttpHeader(self::WX_HEADER_CODE);
             $encryptedData = $this->getHttpHeader(self::WX_HEADER_ENCRYPTED_DATA);
             $iv = $this->getHttpHeader(self::WX_HEADER_IV);
-            return $this->getLoginApi($code, $encryptedData, $iv);
+            return  $this->getLoginApi($code, $encryptedData, $iv);
         } catch (Exception $e) {
             return [
-                'errCode' => self::ERROR_AUTH,
+                'errCode' => self::ERR_LOGIN_FAILED,
                 'message' => $e->getMessage()
             ];
         }
@@ -44,7 +56,7 @@ class Auth extends Base
             return $this->getCheckLoginApi($skey);
         } catch (Exception $e) {
             return [
-                'errCode' => self::ERROR_AUTH,
+                'errCode' => self::ERR_CHECK_LOGIN_FAILED,
                 'message' => $e->getMessage()
             ];
         }
@@ -76,11 +88,14 @@ class Auth extends Base
         $userinfo = json_decode($decryptData);
 
         $this->setStorage($skey, $sessionKey,$userinfo);
-
-        return [
-            'errCode' => self::SUCESS_AUTH,
-            'userinfo' => compact('userinfo', 'skey')
+        $result[self::WX_SESSION_MAGIC_ID] = 1;
+        $result['session'] = [
+            'skey' =>$skey
         ];
+        return array_merge([
+            'errCode' => self::RETURN_CODE_SUCCESS,
+            'userinfo' => compact('userinfo', 'skey')
+        ],$result);
     }
 
     /**
@@ -92,7 +107,7 @@ class Auth extends Base
         $session = QcloudSession::where('skey',$skey)->first();
         if (empty($session)) {
             return [
-                'errCode' => self::ERROR_AUTH,
+                'errCode' => self::ERR_LOGIN_FAILED,
                 'userinfo' => []
             ];
         }
@@ -101,12 +116,12 @@ class Auth extends Base
         $timeDifference = time() - strtotime($session->updated_at);
         if ($timeDifference > $wxLoginExpires) {
             return [
-                'errCode' => self::ERROR_AUTH,
+                'errCode' => self::RETURN_CODE_SKEY_EXPIRED,
                 'userinfo' => []
             ];
         } else {
             return [
-                'errCode' => self::SUCESS_AUTH,
+                'errCode' => self::RETURN_CODE_SUCCESS,
                 'userinfo' => json_decode($session->userinfo, true)
             ];
         }
@@ -127,7 +142,7 @@ class Auth extends Base
         ];
         list($status,$body) = $this->getJsonData(self::WX_SESSION_URL,$params);
         if ($status !== 200 || !$body || isset($body['errcode'])) {
-            throw new Exception(self::ERROR_AUTH. ': ' . json_encode($body));
+            throw new Exception(self::ERR_INVALID_SESSION. ': ' . json_encode($body));
         }
         list($sessionKey, $openid) = array_values($body);
         return $sessionKey;
