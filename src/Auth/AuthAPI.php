@@ -3,7 +3,7 @@ namespace QCloud_WeApp_SDK\Auth;
 
 use \Exception as Exception;
 
-use \QCloud_WeApp_SDK\Helper\Logger as Logger;
+use QCloud_WeApp_SDK\Helper\Logger;
 use \QCloud_WeApp_SDK\Helper\Request as Request;
 use QCloud_WeApp_SDK\Model\QcloudSession;
 
@@ -51,10 +51,10 @@ class AuthAPI {
             $session = QcloudSession::where('skey',$skey)->first();
         }
 
-        //Logger::debug('get CheckLoginApi  response:', [
-         //   'Status' => 0,
-          //  'Body' => json_encode($session),
-        //]);
+        Logger::getLogger()->debug('get CheckLoginApi  response:', [
+            'Status' => 0,
+            'Body' => json_encode($session),
+        ]);
         if (empty($session)) {
             return [
                 'errCode' => Constants::ERR_LOGIN_FAILED,
@@ -137,17 +137,17 @@ class AuthAPI {
      */
     private static function getJsonData($url, $options = [])
     {
-        //Logger::debug('Client Request:', compact('url', 'options'));
+        Logger::debug('Client Request:', compact('url', 'options'));
         $qcloud = config('qcloud');
         list($status, $body) = array_values(Request::get([
             'url' => $url . http_build_query($options),
             'timeout' => $qcloud['network_timeout']
         ]));
 
-        //Logger::debug('API response:', [
-        //    'Status' => $status,
-        //    'Body' => json_encode($body),
-        //]);
+        Logger::debug('API response:', [
+            'Status' => $status,
+            'Body' => json_encode($body),
+        ]);
 
         return [$status,$body];
     }

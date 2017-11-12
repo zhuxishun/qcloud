@@ -2,16 +2,18 @@
 namespace  QCloud_WeApp_SDK;
 use Illuminate\Support\ServiceProvider;
 use QCloud_WeApp_SDK\Auth\LoginService;
+use QCloud_WeApp_SDK\Helper\Logger;
 
 class QcloudServiceProvider extends ServiceProvider
 {
+
     /**
      * 启动服务
      */
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/config/qcloud.php' => config_path('qcloud'),
+            __DIR__ . '/config/qcloud.php' => base_path('config/qcloud'),
         ], 'config');
 
         $this->publishes([
@@ -22,6 +24,7 @@ class QcloudServiceProvider extends ServiceProvider
         if (config('qcloud.enable', true)) {
             require __DIR__ . '/routes.php';
         }
+
     }
 
 

@@ -6,7 +6,9 @@ use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
+use \Monolog\Logger as BaseLogger;
 use Psr\Log\LoggerInterface;
+
 /**
  * @codeCoverageIgnore
  */
@@ -58,6 +60,9 @@ class Logger {
      */
     public static function __callStatic($method, $args)
     {
+        if(!self::hasLogger()){
+            self::createDefaultLogger();
+        }
         return forward_static_call_array([self::getLogger(), $method], $args);
     }
 
@@ -71,6 +76,9 @@ class Logger {
      */
     public function __call($method, $args)
     {
+        if(!self::hasLogger()){
+            self::createDefaultLogger();
+        }
         return call_user_func_array([self::getLogger(), $method], $args);
     }
 
@@ -81,14 +89,16 @@ class Logger {
      */
     private static function createDefaultLogger()
     {
-	$log = new Logger('qcloud');
+	    $logger = new BaseLogger('qcloud');
 
-        if (defined('PHPUNIT_RUNNING')) {
-            $log->pushHandler(new NullHandler());
-        } else {
-            $log->pushHandler(new ErrorLogHandler());
+        if (!config('qcloud.debug')|| defined('PHPUNIT_RUNNING')) {
+            $logger->pushHandler(new NullHandler());
+        } elseif (config('qcloud.log.handler') instanceof HandlerInterface) {
+            $logger->pushHandler(config('qcloud.log.handler'));
+        } elseif ($logFile = config('qcloud.log.file')) {
+            $logger->pushHandler(new StreamHandler($logFile,config('qcloud.log.level', BaseLogger::WARNING)));
         }
 
-        return $log;
+        self::setLogger($logger);
     }
 }

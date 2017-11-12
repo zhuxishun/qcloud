@@ -1,8 +1,8 @@
 <?php
 namespace  QCloud_WeApp_SDK;
 
-#use Laravel\Lumen\Routing\Controller;
-use Illuminate\Routing\Controller;
+use Laravel\Lumen\Routing\Controller;
+#use Illuminate\Routing\Controller;
 use QCloud_WeApp_SDK\Auth\LoginService;
 
 class QcloudController extends Controller

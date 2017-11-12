@@ -3,6 +3,7 @@ namespace QCloud_WeApp_SDK\Auth;
 
 use \Exception as Exception;
 
+use QCloud_WeApp_SDK\Helper\Logger;
 use \QCloud_WeApp_SDK\Helper\Util as Util;
 
 class LoginService {
