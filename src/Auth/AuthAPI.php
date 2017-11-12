@@ -51,10 +51,10 @@ class AuthAPI {
             $session = QcloudSession::where('skey',$skey)->first();
         }
 
-        Logger::debug('get CheckLoginApi  response:', [
-            'Status' => 0,
-            'Body' => json_encode($session),
-        ]);
+        //Logger::debug('get CheckLoginApi  response:', [
+         //   'Status' => 0,
+          //  'Body' => json_encode($session),
+        //]);
         if (empty($session)) {
             return [
                 'errCode' => Constants::ERR_LOGIN_FAILED,
@@ -83,7 +83,7 @@ class AuthAPI {
      * @param $code
      * 获取session内容
      */
-    private function getSessionKey($code)
+    private static function getSessionKey($code)
     {
         $qcloud  = config('qcloud');
         $params = [
@@ -135,19 +135,19 @@ class AuthAPI {
      *
      * @throws Exception
      */
-    private function getJsonData($url, $options = [])
+    private static function getJsonData($url, $options = [])
     {
-        Logger::debug('Client Request:', compact('url', 'options'));
+        //Logger::debug('Client Request:', compact('url', 'options'));
         $qcloud = config('qcloud');
         list($status, $body) = array_values(Request::get([
             'url' => $url . http_build_query($options),
             'timeout' => $qcloud['network_timeout']
         ]));
 
-        Logger::debug('API response:', [
-            'Status' => $status,
-            'Body' => json_encode($body),
-        ]);
+        //Logger::debug('API response:', [
+        //    'Status' => $status,
+        //    'Body' => json_encode($body),
+        //]);
 
         return [$status,$body];
     }

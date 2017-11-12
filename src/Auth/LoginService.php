@@ -12,25 +12,10 @@ class LoginService {
             $encryptedData = self::getHttpHeader(Constants::WX_HEADER_ENCRYPTED_DATA);
             $iv = self::getHttpHeader(Constants::WX_HEADER_IV);
 
-            $loginResult = AuthAPI::login($code, $encryptedData, $iv);
+            return AuthAPI::login($code, $encryptedData, $iv);
 
-            $result = array();
-            $result[Constants::WX_SESSION_MAGIC_ID] = 1;
-            $result['session'] = array(
-                'id' => $loginResult['id'],
-                'skey' => $loginResult['skey'],
-            );
-
-            return array(array(
-                'code' => 0,
-                'message' => 'ok',
-                'data' => array(
-                    'userInfo' => $loginResult['user_info'],
-                )),$result);
         } catch (Exception $e) {
             $error = new LoginServiceException(Constants::ERR_LOGIN_FAILED, $e->getMessage());
-            self::writeError($error);
-
             return array(
                 'code' => -1,
                 'message' => $error->getMessage(),
@@ -45,18 +30,11 @@ class LoginService {
      */
     public static function check() {
         try {
-            $id = self::getHttpHeader(Constants::WX_HEADER_ID);
+            //$id = self::getHttpHeader(Constants::WX_HEADER_ID);
             $skey = self::getHttpHeader(Constants::WX_HEADER_SKEY);
+	
+            return  AuthAPI::checkLogin($skey);
 
-            $checkResult = AuthAPI::checkLogin($id, $skey);
-
-            return array(
-                'code' => 0,
-                'message' => 'ok',
-                'data' => array(
-                    'userInfo' => $checkResult['user_info'],
-                ),
-            );
         } catch (Exception $e) {
             if ($e instanceof AuthAPIException) {
                 switch ($e->getCode()) {

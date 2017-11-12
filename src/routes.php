@@ -8,9 +8,9 @@ $attributes = array_merge([
 ], $routeAttr);
 
 app('router')->group($attributes,function($router){
-    $router->post('login', 'QCloud_WeApp_SDK\QcloudController@login');
-    $router->post('user', 'QCloud_WeApp_SDK\QcloudController@user');
-    $router->post('request','QCloud_WeApp_SDK\QcloudController@request');
-    $router->post('tunnel','QCloud_WeApp_SDK\QcloudController@tunnel');
+    $router->any('login', 'QCloud_WeApp_SDK\QcloudController@login');
+    $router->any('user', 'QCloud_WeApp_SDK\QcloudController@user');
+    $router->any('request','QCloud_WeApp_SDK\QcloudController@request');
+    $router->any('tunnel','QCloud_WeApp_SDK\QcloudController@tunnel');
 
 });

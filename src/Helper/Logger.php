@@ -58,9 +58,6 @@ class Logger {
      */
     public static function __callStatic($method, $args)
     {
-        if(!self::hasLogger()){
-            self::createDefaultLogger();
-        }
         return forward_static_call_array([self::getLogger(), $method], $args);
     }
 
@@ -74,9 +71,6 @@ class Logger {
      */
     public function __call($method, $args)
     {
-        if(!self::hasLogger()){
-            self::createDefaultLogger();
-        }
         return call_user_func_array([self::getLogger(), $method], $args);
     }
 
@@ -87,16 +81,14 @@ class Logger {
      */
     private static function createDefaultLogger()
     {
-        $logger = new Logger('qcloud');
-        $qcloud  = config('qcloud');
-        if (!$qcloud['debug'] || defined('PHPUNIT_RUNNING')) {
-            $logger->pushHandler(new NullHandler());
-        } elseif ($qcloud['log']['handler'] instanceof HandlerInterface) {
-            $logger->pushHandler($qcloud['log']['handler']);
-        } elseif ($logFile = $qcloud['log']['file']) {
-            $logger->pushHandler(new StreamHandler($logFile, $qcloud['log']['level']));
+	$log = new Logger('qcloud');
+
+        if (defined('PHPUNIT_RUNNING')) {
+            $log->pushHandler(new NullHandler());
+        } else {
+            $log->pushHandler(new ErrorLogHandler());
         }
 
-        return $logger;
+        return $log;
     }
 }
