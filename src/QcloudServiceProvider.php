@@ -25,7 +25,7 @@ class QcloudServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../../config/qcloud.php', 'qcloud');
+        $this->mergeConfigFrom(__DIR__ . '/config/qcloud.php', 'qcloud');
         $this->app->bind(Auth::class,function($app){
             return new Auth($app);
         });
