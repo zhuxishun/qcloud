@@ -15,7 +15,7 @@ return [
     /**
      * 微信小程序APPID
      */
-    'app_id' =>'',
+    'appid' =>'',
 
     /**
      * 微信小程序秘钥
@@ -54,6 +54,7 @@ return [
      * handler 函数句柄
      */
     'log' => [
+        'handler'=>false,
         'file'=> storage_path('logs/qcloud.log'),
         'level'=>'debug',
     ]
