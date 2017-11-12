@@ -15,10 +15,10 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Qcloud\Support\Exception;
 use Qcloud\Support\Log;
 use GuzzleHttp\Client as HttpClient;
+use Qcloud\Support\Request;
 
 class Base
 {
@@ -75,83 +75,21 @@ class Base
      *
      * @throws Exception
      */
-    public function request($url, $method = 'GET', $options = [],$headers=[])
+    public function getJsonData($url, $options = [])
     {
-        $method = strtoupper($method);
-
-        Log::debug('Client Request:', compact('url', 'method', 'options'));
-
-        $options['handler'] = $this->getHandler();
-
-        $response = $this->getClient($headers)->request($method, $url, $options);
+        Log::debug('Client Request:', compact('url', 'options'));
+        $qcloud = $this->app['config']->get('qcloud');
+        list($status, $body) = array_values(Request::get([
+            'url' => $url . http_build_query($options),
+            'timeout' => $qcloud['network_timeout']
+        ]));
 
         Log::debug('API response:', [
-            'Status' => $response->getStatusCode(),
-            'Reason' => $response->getReasonPhrase(),
-            'Headers' => $response->getHeaders(),
-            'Body' => strval($response->getBody()),
+            'Status' => $status,
+            'Body' => strval($body),
         ]);
 
-        return $response;
-    }
-
-    /**
-     * Return GuzzleHttp\Client instance.
-     *
-     * @return \GuzzleHttp\Client
-     */
-    public function getClient($header=[])
-    {
-        if (!($this->client instanceof HttpClient)) {
-            $this->client = new HttpClient($header);
-        }
-        if(count($this->middlewares) == 0) {
-            $this->registerHttpMiddlewares();
-        }
-
-        return $this->client;
-    }
-
-    /**
-     * @param $body
-     * @return bool|mixed
-     * @throws Exception
-     * 解析内容
-     */
-    public function parseJSON($body)
-    {
-        if ($body instanceof ResponseInterface) {
-            $body = $body->getBody();
-        }
-
-        // XXX: json maybe contains special chars. So, let's FUCK the WeChat API developers ...
-        $body = $this->fuckTheWeChatInvalidJSON($body);
-
-        if (empty($body)) {
-            return false;
-        }
-
-        $contents = json_decode($body, true);
-
-        Log::debug('API response decoded:', compact('contents'));
-
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new Exception('Failed to parse JSON: '.json_last_error_msg());
-        }
-
-        return $contents;
-    }
-
-    /**
-     * Filter the invalid JSON string.
-     *
-     * @param \Psr\Http\Message\StreamInterface|string $invalidJSON
-     *
-     * @return string
-     */
-    protected function fuckTheWeChatInvalidJSON($invalidJSON)
-    {
-        return preg_replace("/\p{Cc}/u", '', trim($invalidJSON));
+        return [$status,$body];
     }
 
 
@@ -193,21 +131,6 @@ class Base
         return $headerValue;
     }
 
-    /**
-     * Build a handler.
-     *
-     * @return HandlerStack
-     */
-    protected function getHandler()
-    {
-        $stack = HandlerStack::create();
-
-        foreach ($this->middlewares as $middleware) {
-            $stack->push($middleware);
-        }
-
-        return $stack;
-    }
 
 
 }

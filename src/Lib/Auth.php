@@ -12,7 +12,7 @@ class Auth extends Base
     const WX_HEADER_ENCRYPTED_DATA = 'x-wx-encrypted-data';
     const WX_HEADER_IV = 'x-wx-iv';
     const WX_HEADER_SKEY = 'x-wx-skey';
-    const WX_SESSION_URL = 'https://api.weixin.qq.com/sns/jscode2session';
+    const WX_SESSION_URL = 'https://api.weixin.qq.com/sns/jscode2session?';
     const SUCESS_AUTH = 1;
     const ERROR_AUTH = 0;
 
@@ -125,10 +125,7 @@ class Auth extends Base
             'js_code' => $code,
             'grant_type' => 'authorization_code'
         ];
-        $headers['timeout'] = $qcloud['network_timeout'];
-       $http = $this->request(self::WX_SESSION_URL,'get',$params,$headers);
-       $status = $http->getStatusCode();
-       $body = $this->parseJSON($http);
+        list($status,$body) = $this->getJsonData(self::WX_SESSION_URL,$params);
         if ($status !== 200 || !$body || isset($body['errcode'])) {
             throw new Exception(self::ERROR_AUTH. ': ' . json_encode($body));
         }
