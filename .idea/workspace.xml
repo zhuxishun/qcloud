@@ -37,8 +37,8 @@
       <file leaf-file-name="Base.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Lib/Base.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-53.07143">
-              <caret line="124" column="39" selection-start-line="124" selection-start-column="39" selection-end-line="124" selection-end-column="39" />
+            <state vertical-scroll-proportion="-4.892857">
+              <caret line="86" column="7" selection-start-line="86" selection-start-column="7" selection-end-line="89" selection-end-column="11" />
               <folding>
                 <element signature="e#116#144#0#PHP" expanded="true" />
               </folding>
@@ -79,8 +79,8 @@
       <file leaf-file-name="Auth.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Lib/Auth.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33333334">
-              <caret line="143" column="69" selection-start-line="143" selection-start-column="55" selection-end-line="143" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.0952381">
+              <caret line="108" column="38" selection-start-line="108" selection-start-column="38" selection-end-line="108" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -369,8 +369,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Lib/Base.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-53.07143">
-          <caret line="124" column="39" selection-start-line="124" selection-start-column="39" selection-end-line="124" selection-end-column="39" />
+        <state vertical-scroll-proportion="-4.892857">
+          <caret line="86" column="7" selection-start-line="86" selection-start-column="7" selection-end-line="89" selection-end-column="11" />
           <folding>
             <element signature="e#116#144#0#PHP" expanded="true" />
           </folding>
@@ -379,8 +379,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Lib/Auth.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="143" column="69" selection-start-line="143" selection-start-column="55" selection-end-line="143" selection-end-column="69" />
+        <state vertical-scroll-proportion="0.0952381">
+          <caret line="108" column="38" selection-start-line="108" selection-start-column="38" selection-end-line="108" selection-end-column="38" />
           <folding />
         </state>
       </provider>

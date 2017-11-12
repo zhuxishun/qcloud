@@ -106,6 +106,10 @@ class Auth extends Base
     private function getCheckLoginApi($skey)
     {
         $session = QcloudSession::where('skey',$skey)->first();
+        Log::debug('get CheckLoginApi  response:', [
+            'Status' => 0,
+            'Body' => json_encode($session),
+        ]);
         if (empty($session)) {
             return [
                 'errCode' => self::ERR_LOGIN_FAILED,
