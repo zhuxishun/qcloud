@@ -15,6 +15,7 @@ class Auth extends Base
     const WX_HEADER_ID = 'X-WX-Id';
     const WX_HEADER_SKEY = 'X-WX-Skey';
 
+    const  WX_SESSION_URL = 'https://api.weixin.qq.com/sns/jscode2session?';
     const WX_SESSION_MAGIC_ID = 'F2C224D4-2BCE-4C64-AF9F-A6D872000D1A';
 
     const ERR_LOGIN_FAILED = 90001;
