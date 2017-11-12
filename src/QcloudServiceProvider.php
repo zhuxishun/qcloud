@@ -17,6 +17,11 @@ class QcloudServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/migrations/' => database_path('/migrations'),
         ], 'migrations');
+
+
+        if (config('qcloud.enable', true)) {
+            require __DIR__ . '/routes.php';
+        }
     }
 
 
