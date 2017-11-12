@@ -11,7 +11,7 @@ class TunnelAPI {
     public static function requestConnect($receiveUrl) {
         $protocolType = 'wss';
         $param = compact('receiveUrl', 'protocolType');
-        return self::sendRequest('/get/wsurl', $param, TRUE);
+        return self::sendRequest('', $param, TRUE);
     }
 
     public static function emitMessage($tunnelIds, $messageType, $messageContent) {
@@ -30,12 +30,12 @@ class TunnelAPI {
             $param['content'] = $packetContent;
         }
 
-        return self::sendRequest('/ws/push', array($param), FALSE);
+        return self::sendRequest('', array($param), FALSE);
     }
 
     private static function sendRequest($apiPath, $apiParam, $withTcKey = FALSE) {
-        $url = Conf::getTunnelServerUrl() . $apiPath;
-        $timeout = Conf::getNetworkTimeout();
+        $url = config('qcloud.tunnel_server_url') . $apiPath;
+        $timeout = config('qcloud.network_timeout');
         $data = self::packReqData($apiParam, $withTcKey);
 
         $begin = round(microtime(TRUE) * 1000);
@@ -66,11 +66,11 @@ class TunnelAPI {
 
     private static function packReqData($data, $withTcKey = FALSE) {
         $data = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        $tcId = md5(Conf::getServerHost());
+        $tcId = md5(config('qcloud.server_host'));
         $result = compact('data', 'tcId');
 
         if ($withTcKey) {
-            $result['tcKey'] = Conf::getTunnelSignatureKey();
+            $result['tcKey'] = config('qcloud.tunnel_signature_key');
         }
 
         $result['signature'] = Signature::compute($data);

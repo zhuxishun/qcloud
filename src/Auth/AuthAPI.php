@@ -51,7 +51,7 @@ class AuthAPI {
             $session = QcloudSession::where('skey',$skey)->first();
         }
 
-        Logger::getLogger()->debug('get CheckLoginApi  response:', [
+        Logger::debug('get CheckLoginApi  response:', [
             'Status' => 0,
             'Body' => json_encode($session),
         ]);

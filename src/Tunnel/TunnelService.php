@@ -3,7 +3,6 @@ namespace QCloud_WeApp_SDK\Tunnel;
 
 use \Exception as Exception;
 
-use \QCloud_WeApp_SDK\Conf as Conf;
 use \QCloud_WeApp_SDK\Auth\LoginService as LoginService;
 use \QCloud_WeApp_SDK\Helper\Util as Util;
 use \QCloud_WeApp_SDK\Helper\Logger as Logger;
@@ -80,11 +79,11 @@ class TunnelService {
         if ($options['checkLogin']) {
             $result = LoginService::check();
 
-            if ($result['code'] !== 0) {
+            if ($result['errCode'] !== 0) {
                 return;
             }
 
-            $userInfo = $result['data']['userInfo'];
+            $userInfo = $result['userinfo'];
         }
 
         try {
@@ -151,10 +150,10 @@ class TunnelService {
      *   4. 拼接推送地址为 https://109447.qcloud.la/tunnel
      */
     private static function buildReceiveUrl() {
-        $scheme = parse_url(Conf::getTunnelServerUrl(), PHP_URL_SCHEME);
-        $hostname = Conf::getServerHost();
+        $scheme = parse_url(config('qcloud.tunnel_server_url'), PHP_URL_SCHEME);
+        $hostname = config('qcloud.server_host');
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        return "{$scheme}://{$hostname}{$path}";
+        return "{$scheme}://{$hostname}/wss";
     }
 
     /**
