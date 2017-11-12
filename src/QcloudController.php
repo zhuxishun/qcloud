@@ -2,6 +2,7 @@
 namespace  QCloud_WeApp_SDK;
 
 use Laravel\Lumen\Routing\Controller;
+use QCloud_WeApp_SDK\Auth\LoginService;
 
 class QcloudController extends Controller
 {
@@ -10,7 +11,7 @@ class QcloudController extends Controller
      */
     public function login()
     {
-
+        return LoginService::login();
     }
 
     /**
@@ -18,7 +19,7 @@ class QcloudController extends Controller
      */
     public function user()
     {
-
+        return LoginService::check();
     }
 
     /**
