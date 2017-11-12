@@ -11,11 +11,11 @@ class QcloudServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../../config/qcloud.php' => config_path('qcloud'),
+            __DIR__ . '/config/qcloud.php' => config_path('qcloud'),
         ], 'config');
 
         $this->publishes([
-            __DIR__ . '/../../../migrations/' => database_path('/migrations'),
+            __DIR__ . '/../migrations/' => database_path('/migrations'),
         ], 'migrations');
     }
 
