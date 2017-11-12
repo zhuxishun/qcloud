@@ -2,8 +2,10 @@
 namespace  QCloud_WeApp_SDK;
 
 use Laravel\Lumen\Routing\Controller;
-#use Illuminate\Routing\Controller;
+#use Illuminate\Routing\Controller;  //laravel使用
 use QCloud_WeApp_SDK\Auth\LoginService;
+use QCloud_WeApp_SDK\Tunnel\ChatTunnelHandler;
+use QCloud_WeApp_SDK\Tunnel\TunnelService;
 
 class QcloudController extends Controller
 {
@@ -37,6 +39,8 @@ class QcloudController extends Controller
      */
     public function tunnel()
     {
+        $handler = new ChatTunnelHandler();
+        TunnelService::handle($handler, array('checkLogin' => TRUE));
 
     }
 
